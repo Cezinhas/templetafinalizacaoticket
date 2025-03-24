@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Finalização Ticket</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="icon" href="https://www.w2z.com.br/wp-content/uploads/2019/08/cropped-small-logo-32x32.png" type="image/png">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .frase-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+
+        #fraseFinal {
+            text-align: right;
+            flex-grow: 1;
+            margin-left: 20px;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .copy-button {
+            margin-left: 10px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            button {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Template Finalização Ticket</h1>
+
+    <label for="sistema">Selecione o sistema:</label>
+    <select id="sistema" onchange="gerarFrase()" required>
+        <option value="">--Selecione--</option>
+        <option value="Windows 11">Windows 11</option>
+        <option value="Windows 10">Windows 10</option>
+        <option value="não">não</option>
+    </select>
+
+    <label for="versao">Versão do Windows:</label>
+    <select id="versao" onchange="gerarFrase()">
+        <option value="">--Selecione--</option>
+        <option value="Home">Home</option>
+        <option value="Pro">Pro</option>
+        <option value="Home Single Language">Home Single Language</option>
+    </select>
+
+    <label for="backup">Formatação:</label>
+    <select id="backup" onchange="gerarFrase()" required>
+        <option value="">--Selecione--</option>
+        <option value="sem backup">sem backup</option>
+        <option value="com backup">com backup</option>
+        <option value="com backup sem restauração">com backup sem restauração</option>
+        <option value="não">não</option>
+    </select>
+
+    <label for="instalacao">Tipo de Instalação:</label>
+    <select id="instalacao" onchange="gerarFrase()" required>
+        <option value="">--Selecione--</option>
+        <option value="padrão">padrão</option>
+        <option value="não">não</option>
+    </select>
+
+    <label for="limpeza">Limpeza:</label>
+    <select id="limpeza" onchange="gerarFrase()" required>
+        <option value="">--Selecione--</option>
+        <option value="interna">interna</option>
+        <option value="externa">externa</option>
+        <option value="interna/externa">interna/externa</option>
+        <option value="não">não</option>
+    </select>
+
+    <label for="teste">Teste:</label>
+    <select id="teste" onchange="gerarFrase()" required>
+        <option value="">--Selecione--</option>
+        <option value="sim">Teste</option>
+        <option value="não">não</option>
+    </select>
+
+    <label for="revisao">Revisão Geral:</label>
+    <select id="revisao" onchange="gerarFrase()" required>
+        <option value="">--Selecione--</option>
+        <option value="sim">sim</option>
+        <option value="não">não</option>
+    </select>
+
+    <label for="atualizacoes">Atualizações:</label>
+    <select id="atualizacoes" onchange="gerarFrase()" required>
+        <option value="">--Selecione--</option>
+        <option value="sim">sim</option>
+        <option value="não">não</option>
+    </select>
+
+    <div class="frase-container">
+        <h2>Frase Final:</h2>
+        <p id="fraseFinal"></p>
+    </div>
+
+    <div class="button-container">
+        <button id="botaoCopiar" onclick="copiarFrase()" disabled>
+            <i class="fas fa-copy"></i> Copiar Frase
+        </button>
+    </div>
+
+    <script>
+        function gerarFrase() {
+            const sistema = document.getElementById('sistema').value;
+            const versaoSelect = document.getElementById('versao');
+            const versao = versaoSelect.value;
+            const backupSelect = document.getElementById('backup');
+            const backup = backupSelect.value;
+            const instalacao = document.getElementById('instalacao').value;
+            const limpeza = document.getElementById('limpeza').value;
+            const teste = document.getElementById('teste').value;
+            const revisao = document.getElementById('revisao').value;
+            const atualizacoes = document.getElementById('atualizacoes').value;
+
+            let frase = "Realizado "; // Sempre começa com "Realizado"
+
+            // Bloqueia o dropdown de versão e backup se "não" for selecionado para o sistema
+            if (sistema === "não") {
+                versaoSelect.disabled = true; // Desabilita o dropdown de versão
+                versaoSelect.value = ""; // Limpa a seleção da versão
+                backupSelect.disabled = true; // Desabilita o dropdown de backup
+                backupSelect.value = ""; // Limpa a seleção do backup
+            } else {
+                versaoSelect.disabled = false; // Habilita o dropdown de versão se o sistema não for "não"
+                backupSelect.disabled = false; // Habilita o dropdown de backup
+            }
+
+            if (sistema && sistema !== "não") {
+                frase += `formatação ${sistema} `;
+                if (versao) {
+                    frase += `${versao} `; // Adiciona a versão antes do tipo de backup
+                }
+                if (backup !== "não" && backup) {
+                    frase += `(${backup}) `; // Mantém os parênteses no backup
+                }
+                frase += '+ '; // Adiciona o "+" após a formatação com espaço
+            }
+
+            // Adiciona as partes da frase, controlando o "+"
+            const partes = [];
+            if (instalacao && instalacao !== "não") {
+                partes.push(`Instalação ${instalacao}`);
+            }
+            if (limpeza && limpeza !== "não") {
+                partes.push(`Limpeza ${limpeza}`);
+            }
+            if (teste === "sim") {
+                partes.push(`Teste`);
+            }
+            if (revisao === "sim") {
+                partes.push(`Revisão Geral`);
+            }
+            if (atualizacoes === "sim") {
+                partes.push(`Atualizações`);
+            }
+
+            // Adiciona as partes à frase, com "+" apenas se houver algo antes
+            if (partes.length > 0) {
+                frase += partes.join(' + ');
+            }
+
+            document.getElementById('fraseFinal').innerText = frase.trim();
+
+            // Habilita o botão de copiar se todos os campos obrigatórios estiverem preenchidos
+            const camposPreenchidos = [
+                sistema,
+                (sistema === "não" || backup || (sistema !== "não" && versao)),
+                instalacao,
+                limpeza,
+                teste,
+                revisao,
+                atualizacoes
+            ].every(field => field);
+            document.getElementById('botaoCopiar').disabled = !camposPreenchidos;
+        }
+
+        function copiarFrase() {
+            const frase = document.getElementById('fraseFinal').innerText;
+            navigator.clipboard.writeText(frase).then(() => {
+                alert('Frase copiada para a área de transferência!');
+            }).catch(err => {
+                console.error('Erro ao copiar: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
